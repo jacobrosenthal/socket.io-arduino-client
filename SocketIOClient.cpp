@@ -90,8 +90,8 @@ void SocketIOClient::monitor() {
 			break;
 
 		default: 
-			Serial.print("Drop ");
-			Serial.println(dataptr);
+			DBGC("Drop ");
+			DBGCN(dataptr);
 			continue;
 		}
 
@@ -108,9 +108,9 @@ void SocketIOClient::monitor() {
 		}
 		*optr = 0;
 
-		Serial.print("[");
-		Serial.print(databuffer);
-		Serial.print("]");
+		DBGC("[");
+		DBGC(databuffer);
+		DBGCN("]");
 
 		if (dataArrivedDelegate != NULL) {
 			dataArrivedDelegate(*this, databuffer);
@@ -162,20 +162,20 @@ bool SocketIOClient::readHandshake() {
 	while (*iptr && (*iptr != ':') && (optr < &sid[SID_LEN-2])) *optr++ = *iptr++;
 	*optr = 0;
 
-	Serial.print(F("Connected. SID="));
-	Serial.println(sid);	// sid:transport:timeout 
+	DBGC(F("Connected. SID="));
+	DBGCN(sid);	// sid:transport:timeout 
 
 	while (client.available()) readLine();
 	client.stop();
 	delay(1000);
 
 	// reconnect on websocket connection
-	Serial.print(F("WS Connect..."));
+	DBGCN(F("WS Connect..."));
 	if (!client.connect(hostname, port)) {
-		Serial.print(F("Reconnect failed."));
+		DBGCN(F("Reconnect failed."));
 		return false;
 	}
-	Serial.println(F("Reconnected."));
+	DBGCN(F("Reconnected."));
 
 	client.print(F("GET /socket.io/1/websocket/"));
 	client.print(sid);
@@ -203,9 +203,9 @@ void SocketIOClient::readLine() {
 	dataptr = databuffer;
 	while (client.available() && (dataptr < &databuffer[DATA_BUFFER_LEN-2])) {
 		char c = client.read();
-		//Serial.print(c);
-		if (c == 0) Serial.print(F("NULL"));
-		else if (c == 255) Serial.print(F("0x255"));
+		DBGC(c);
+		if (c == 0) DBGCN(F("NULL"));
+		else if (c == 255) DBGCN(F("0x255"));
 		else if (c == '\r') {;}
 		else if (c == '\n') break;
 		else *dataptr++ = c;

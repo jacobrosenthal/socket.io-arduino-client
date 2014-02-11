@@ -34,6 +34,15 @@
 #define DATA_BUFFER_LEN 120
 #define SID_LEN 24
 
+#define SOCKETIOCLIENT_DEBUG
+#ifdef SOCKETIOCLIENT_DEBUG
+#define DBGCN( ... ) Serial.println( __VA_ARGS__ )
+#define DBGC( ... ) Serial.print( __VA_ARGS__ )
+#else
+#define DBGCN( ... )
+#define DBGC( ... )
+#endif
+
 class SocketIOClient {
 	public:
 		typedef void (*DataArrivedDelegate)(SocketIOClient client, char *data);
