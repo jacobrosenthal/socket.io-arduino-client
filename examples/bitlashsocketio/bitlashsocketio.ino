@@ -38,7 +38,7 @@ void sendbuffer(void) {
 	if (output_index == 0) return;
 	output_buffer[output_index] = 0;
 	Serial.print(output_buffer);
-	if (client.connected()) client.send(output_buffer);
+	if (client.connected()) client.send("3:::", output_buffer);
 	output_index = 0;
 }
 
@@ -65,7 +65,7 @@ void setup() {
 	client.setDataArrivedDelegate(ondata);
 	if (!client.connect(hostname, port)) Serial.println(F("Not connected."));
 
-	client.send("Client here!");
+	client.send("3:::", "Client here!");
 }
 
 void loop() {

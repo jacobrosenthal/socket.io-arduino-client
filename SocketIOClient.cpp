@@ -213,9 +213,9 @@ void SocketIOClient::readLine() {
 	*dataptr = 0;
 }
 
-void SocketIOClient::send(char *data) {
+void SocketIOClient::send(char *encoding, char *data) {
 	client.print((char)0);
-	client.print("3:::");
+	client.print(encoding);
 	client.print(data);
 	client.print((char)255);
 }

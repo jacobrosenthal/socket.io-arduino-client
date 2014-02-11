@@ -51,7 +51,7 @@ class SocketIOClient {
         void disconnect();
 		void monitor();
 		void setDataArrivedDelegate(DataArrivedDelegate dataArrivedDelegate);
-		void send(char *data);
+		void send(char *encoding, char *data);
 	private:
         void sendHandshake(char hostname[]);
         EthernetClient client;
