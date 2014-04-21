@@ -166,16 +166,6 @@ bool SocketIOClient::readHandshake() {
 	Serial.println(sid);	// sid:transport:timeout 
 
 	while (client.available()) readLine();
-	client.stop();
-	delay(1000);
-
-	// reconnect on websocket connection
-	Serial.print(F("WS Connect..."));
-	if (!client.connect(hostname, port)) {
-		Serial.print(F("Reconnect failed."));
-		return false;
-	}
-	Serial.println(F("Reconnected."));
 
 	client.print(F("GET /socket.io/1/websocket/"));
 	client.print(sid);
